@@ -5,12 +5,14 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dao.UsersDao;
+import com.helper.PosLog;
 import com.model.User;
 import com.resources.AESencryption;
 
@@ -36,10 +38,22 @@ public class UsersDaoImpl implements UsersDao {
 		return true;
 	}
 
-	public boolean save(User User) throws Exception {
-		User.setPassword(AESencryption.getInstance().encrypt(User.getPassword()));
-		session.getCurrentSession().save(User);
+	public boolean save(User user) throws Exception {
+		Session currentSession = session.openSession();
+		Transaction transaction = currentSession.beginTransaction();
+		try {
+			user.setPassword(AESencryption.getInstance().encrypt(user.getPassword()));
+			user.setEmail(user.getEmail());
+			currentSession.save(user);
+			transaction.commit();
+		} catch (Exception e) {
+			PosLog.error(e.getMessage());
+			return false;
+		} finally {
+			closeSession(currentSession);
+		}
 		return true;
+
 	}
 
 	public boolean validateUser(String username, String password) throws Exception {

@@ -36,7 +36,7 @@ public class UsersController {
 		return new ModelAndView("home");
 	}
 
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	@ExceptionHandler({ Exception.class })
 	public @ResponseBody Map<String, Object> saveUserRegistration(User users) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
