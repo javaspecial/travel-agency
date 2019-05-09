@@ -50,7 +50,7 @@
 							<div class="sminputs">
 								<div class="input full">
 									<label class="string optional" for="user-name">Email*</label> <input
-										onkeyup="checkEmailValidation" class="string optional"
+										onkeyup="checkEmailValidation()" class="string optional"
 										maxlength="255" id="user-email"
 										placeholder="shadathcse@gmail.com" type="text" name="email"
 										size="50" /><small><span id="regex"></span></small>
@@ -90,7 +90,7 @@
 						</div>
 						<div class="logmod__form">
 							<form id="loginForm" role="form" ModelAttribute="Users"
-								action="home" method="post">
+								action="login" method="post">
 								<div class="sminputs">
 									<div class="input full">
 										<label class="string optional" for="user-name">Email*</label>
@@ -110,7 +110,7 @@
 									</div>
 								</div>
 								<div class="simform__actions">
-									<button onclick="submit();" class="sumbit" name="commit">Login</button>
+									<button class="sumbit" name="commit">Login</button>
 									&nbsp; <a class="special" role="link" href="#">Forgot your
 										password? </a>
 								</div>

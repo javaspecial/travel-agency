@@ -56,7 +56,7 @@ public class UsersController {
 		return map;
 	}
 
-	@RequestMapping(value = "/home", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
 	@ExceptionHandler({ Exception.class })
 	public ModelAndView loginProcess(@RequestParam(value = "user_name", required = false) String username, @RequestParam(value = "password", required = false) String password, HttpServletResponse response, HttpServletRequest request)
 			throws Exception {
@@ -70,7 +70,7 @@ public class UsersController {
 			}
 			if (userServices.validateUser(username, password)) {
 				UsersCookie.getInstance().setCookie(username, response);
-				mv.addObject("welcomeMSG", "Hi " + username + ", Welcome to our home page");
+				mv.addObject("welcomeMSG", "Hi " + username + ", Welcome.");
 				return mv;
 			} else {
 				mv = new ModelAndView("index");
