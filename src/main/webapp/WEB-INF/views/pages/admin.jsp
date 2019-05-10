@@ -99,7 +99,6 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<%@ include file="/WEB-INF/views/pages/exception.jsp"%>
-	<%@ include file="/WEB-INF/views/pages/success.jsp"%>
 	<div class="wrapper">
 		<header class="main-header">
 			<!-- Logo -->

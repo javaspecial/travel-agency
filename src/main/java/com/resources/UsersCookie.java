@@ -18,7 +18,7 @@ public class UsersCookie {
 
 	public void setCookie(String username, HttpServletResponse response) {
 		Cookie cookie = new Cookie("username", username);
-		cookie.setMaxAge(60 * 30);
+		cookie.setMaxAge(60);
 		response.addCookie(cookie);
 	}
 

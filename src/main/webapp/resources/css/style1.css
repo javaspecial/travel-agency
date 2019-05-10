@@ -702,3 +702,6 @@ html {
 	z-index: 999999;
 	background-image: url(https://basehold.it/i/24);
 }
+.custom-padding{
+	padding: 10px;
+}

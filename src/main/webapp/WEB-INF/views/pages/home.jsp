@@ -40,18 +40,24 @@
 				</ul>
 				<div class="logmod__tab-wrapper" id="logmod__container">
 					<div class="logmod__tab lgm-2">
-						<div class="logmod__form">
+						<div class="logmod__form" style="overflow: visible;">
 							<form id="loginForm" role="form" ModelAttribute="model_name"
 								action="url" method="post">
 								<div class="sminputs">
-									<div class="input full">
-										
-									</div>
-								</div>
-								<div class="sminputs">
-									<div class="input full">
-										
-									</div>
+									<label class="custom-padding">Status</label>
+									<textarea style="width: 100%" rows="4" class="custom-padding"></textarea>
+									<label class="custom-padding">Choose privacy</label><br>
+									&nbsp;&nbsp;&nbsp;<input type="radio" name="gender"
+										value="male"> Public&nbsp;&nbsp;<input type="radio"
+										name="gender" value="female"> Private<br> <label
+										class="custom-padding">Chechk in</label><br>
+									<%-- <select
+										path="location" style="width: 100%" class="custom-padding">
+										<option value="NONE" label="--- Select a location ---" />
+										<options items="${listOfLocations}" />
+									</select> --%>
+									<form:select path="location" items="${listOfLocations}"
+										itemValue="locationId" itemLabel="location" style="width: 100%" class="custom-padding"/>
 								</div>
 								<div class="simform__actions">
 									<button onclick="submit();" class="sumbit" name="commit">Post</button>

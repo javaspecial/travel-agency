@@ -20,7 +20,6 @@ public class Status {
 	public static final String STATUS_LOCATION = "statusLocation";
 	private static final String USER = "user";
 
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = STATUS_ID, unique = true, nullable = false)
@@ -28,16 +27,19 @@ public class Status {
 
 	@Column(name = STATUS_PRIVACY, length = 20)
 	private String statusPrivacy;
-	
+
 	@Column(name = STATUS_DISPLAY_TEXT, length = 255)
 	private String statusDisplayText;
-	
+
 	@Column(name = STATUS_LOCATION, length = 255)
 	private String statusLocation;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = USER, referencedColumnName = User.USER_ID)
 	private User user;
+
+	public Status() {
+	}
 
 	public Integer getStatusId() {
 		return statusId;

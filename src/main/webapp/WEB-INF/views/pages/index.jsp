@@ -49,27 +49,27 @@
 						<div class="logmod__form">
 							<div class="sminputs">
 								<div class="input full">
-									<label class="string optional" for="user-name">Email*</label> <input
-										onkeyup="checkEmailValidation()" class="string optional"
-										maxlength="255" id="user-email"
+									<label class="string optional" for="user-name">Email*<small><span
+											id="regex"></span></small></label> <input onkeyup="checkEmailValidation()"
+										class="string optional" maxlength="255" id="user-email"
 										placeholder="shadathcse@gmail.com" type="text" name="email"
-										size="50" /><small><span id="regex"></span></small>
+										size="50" />
 								</div>
 							</div>
 							<div class="sminputs">
 								<div class="input string optional">
-									<label class="string optional" for="user-pw">Password *</label>
-									<input class="string optional" maxlength="20" id="user-pw"
-										placeholder="expected 8********" type="password"
-										name="user-pw" size="50" onkeyup="checkRepeat()" /> <small><span
-										id="showPassword"></span></small>
+									<label class="string optional" for="user-pw">Password *<small><span
+											id="showPassword"></span></small></label> <input class="string optional"
+										maxlength="20" id="user-pw" placeholder="expected 8********"
+										type="password" name="user-pw" size="50"
+										onkeyup="checkRepeat()" />
 								</div>
 								<div class="input string optional">
 									<label class="string optional" for="user-pw-repeat">Repeat
-										password *</label> <input class="string optional" maxlength="20"
+										password *<small><span id="message"></span></small>
+									</label> <input class="string optional" maxlength="20"
 										id="user-pw-repeat" placeholder="expected 8********"
-										type="password" size="50" onkeyup="checkRepeat()" /> <small><span
-										id="message"></span></small>
+										type="password" size="50" onkeyup="checkRepeat()" />
 								</div>
 							</div>
 							<div class="simform__actions">

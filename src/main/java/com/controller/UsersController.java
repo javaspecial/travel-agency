@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.model.Location;
 import com.model.User;
 import com.resources.UsersCookie;
+import com.service.LocationService;
+import com.service.StatusService;
 import com.service.UsersService;
 
 @Controller
@@ -27,13 +30,19 @@ public class UsersController {
 	@Autowired
 	UsersService userServices;
 
+	@Autowired
+	LocationService locationService;
+
+	@Autowired
+	StatusService statusService;
+
 	@RequestMapping(value = { "/", "index" }, method = RequestMethod.GET)
 	public ModelAndView getPage(HttpServletRequest request) {
 		ModelAndView view = new ModelAndView("index");
 		if (StringUtils.isEmpty(UsersCookie.getInstance().getCookie(request))) {
 			return view;
 		}
-		return new ModelAndView("home");
+		return new ModelAndView("index");
 	}
 
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
@@ -58,8 +67,9 @@ public class UsersController {
 
 	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
 	@ExceptionHandler({ Exception.class })
-	public ModelAndView loginProcess(@RequestParam(value = "user_name", required = false) String username, @RequestParam(value = "password", required = false) String password, HttpServletResponse response, HttpServletRequest request)
-			throws Exception {
+	public ModelAndView loginProcess(@RequestParam(value = "user_name", required = false) String username,
+			@RequestParam(value = "password", required = false) String password, HttpServletResponse response,
+			HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("home");
 		try {
 			if ("GET".equals(request.getMethod())) {
@@ -69,8 +79,9 @@ public class UsersController {
 				return mv;
 			}
 			if (userServices.validateUser(username, password)) {
-				UsersCookie.getInstance().setCookie(username, response);
+				mv.addObject("listOfLocations", getListOfLocations());
 				mv.addObject("welcomeMSG", "Hi " + username + ", Welcome.");
+				UsersCookie.getInstance().setCookie(username, response);
 				return mv;
 			} else {
 				mv = new ModelAndView("index");
@@ -82,6 +93,20 @@ public class UsersController {
 			mv.addObject("exception", e.getMessage().toString());
 			return mv;
 		}
+	}
+
+	private List<Location> getListOfLocations() throws Exception {
+		List<Location> listOfLocations = locationService.getListOfLocation();
+		if (listOfLocations == null || listOfLocations.size() == 0) {
+			String locations[] = { "Sylhet", "Bandarbon", "Khulna" };
+			for (String name : locations) {
+				Location location = new Location();
+				location.setLocationName(name);
+				locationService.save(location);
+				listOfLocations.add(location);
+			}
+		}
+		return listOfLocations;
 	}
 
 	@RequestMapping(value = "/existEmail", method = RequestMethod.POST)

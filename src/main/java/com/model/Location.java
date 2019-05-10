@@ -11,15 +11,18 @@ import javax.persistence.Table;
 @Table(name = "LOCATION")
 public class Location {
 	public static final String LOCATION_ID = "locationId";
-	public static final String LOCATION = "location";
-	
+	public static final String LOCATION = "locationName";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = LOCATION_ID, unique = true, nullable = false)
 	private Integer locationId;
 
 	@Column(name = LOCATION, length = 255)
-	private String location;
+	private String locationName;
+
+	public Location() {
+	}
 
 	public Integer getLocationId() {
 		return locationId;
@@ -29,11 +32,11 @@ public class Location {
 		this.locationId = locationId;
 	}
 
-	public String getLocation() {
-		return location;
+	public String getLocationName() {
+		return locationName;
 	}
 
-	public void setLocation(String location) {
-		this.location = location;
+	public void setLocationName(String locationName) {
+		this.locationName = locationName;
 	}
 }
