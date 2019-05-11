@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,7 +43,7 @@ public class UsersController {
 		if (StringUtils.isEmpty(UsersCookie.getInstance().getCookie(request))) {
 			return view;
 		}
-		return new ModelAndView("index");
+		return new ModelAndView("home");
 	}
 
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
@@ -79,8 +80,7 @@ public class UsersController {
 				return mv;
 			}
 			if (userServices.validateUser(username, password)) {
-				mv.addObject("listOfLocations", getListOfLocations());
-				mv.addObject("welcomeMSG", "Hi " + username + ", Welcome.");
+				mv.addObject("welcomeMSG", username);
 				UsersCookie.getInstance().setCookie(username, response);
 				return mv;
 			} else {
@@ -95,16 +95,21 @@ public class UsersController {
 		}
 	}
 
-	private List<Location> getListOfLocations() throws Exception {
+	@ModelAttribute("locations")
+	public List<Location> getListOfLocations() {
 		List<Location> listOfLocations = locationService.getListOfLocation();
-		if (listOfLocations == null || listOfLocations.size() == 0) {
-			String locations[] = { "Sylhet", "Bandarbon", "Khulna" };
-			for (String name : locations) {
-				Location location = new Location();
-				location.setLocationName(name);
-				locationService.save(location);
-				listOfLocations.add(location);
+		try {
+			if (listOfLocations == null || listOfLocations.size() == 0) {
+				String locationsName[] = { "Sylhet", "Bandarbon", "Khulna" };
+				for (String name : locationsName) {
+					Location location = new Location();
+					location.setLocationName(name);
+					locationService.save(location);
+					listOfLocations.add(location);
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return listOfLocations;
 	}

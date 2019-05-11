@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -36,7 +37,7 @@
 		<div class="logmod__wrapper">
 			<div class="logmod__container" style="height: 65%">
 				<ul class="logmod__tabs">
-					<li data-tabtar="lgm-2"><a href="#"><span>${welcomeMSG}</span></a></li>
+					<li data-tabtar="lgm-2"><a href="#">${welcomeMSG}</a></li>
 				</ul>
 				<div class="logmod__tab-wrapper" id="logmod__container">
 					<div class="logmod__tab lgm-2">
@@ -51,16 +52,18 @@
 										value="male"> Public&nbsp;&nbsp;<input type="radio"
 										name="gender" value="female"> Private<br> <label
 										class="custom-padding">Chechk in</label><br>
-									<%-- <select
-										path="location" style="width: 100%" class="custom-padding">
-										<option value="NONE" label="--- Select a location ---" />
-										<options items="${listOfLocations}" />
-									</select> --%>
-									<form:select path="location" items="${listOfLocations}"
-										itemValue="locationId" itemLabel="location" style="width: 100%" class="custom-padding"/>
+
+									<!--load list of locations from ModelAndAttribute via UsersController-->
+									<!-- using url locations -->
+									<select style="width: 100%" class="custom-padding">
+										<option value="NONE">--- Select a location ---</option>
+										<c:forEach var="location" items="${locations}">
+											<option value="${location.locationId}">${location.locationName}</option>
+										</c:forEach>
+									</select>
 								</div>
 								<div class="simform__actions">
-									<button onclick="submit();" class="sumbit" name="commit">Post</button>
+									<button class="sumbit" name="commit">Post</button>
 								</div>
 							</form>
 						</div>
