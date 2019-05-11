@@ -14,4 +14,6 @@ public interface StatusService {
 	public boolean save(Status status) throws Exception;
 
 	public Status getStatusById(Integer valueOf);
+
+	public List<Status> listOfStatusByUserId(String userId);
 }

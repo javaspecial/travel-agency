@@ -14,4 +14,6 @@ public interface StatusDao {
 	public boolean save(Status status) throws Exception;
 
 	public Status getStatusById(Integer statusId);
+
+	public List<Status> listOfStatusByUserId(String userId);
 }

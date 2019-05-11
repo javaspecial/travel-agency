@@ -11,18 +11,6 @@ function redirect() {
 	});
 };
 
-function fetchBooks() {
-	$.ajax({
-		type : "GET",
-		url : 'listOfBooks',
-		data : "",
-		success : function(response) {
-			if (response.message === 'Book found.') {
-				return true;
-			}
-		}
-	});
-};
 // post request for registration
 function submit() {
 	var checked = document.getElementById('terms_privacy').checked;

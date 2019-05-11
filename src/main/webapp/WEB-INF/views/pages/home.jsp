@@ -33,7 +33,7 @@
 	href="<spring:url value="/resources/css/style1.css" />">
 </head>
 <body>
-	<div class="logmod" style="overflow-y: auto;">
+	<div id="containerDiv" class="logmod" style="overflow-y: auto;">
 		<div class="logmod__wrapper">
 			<div class="logmod__container" style="height: 65%">
 				<ul class="logmod__tabs">
@@ -44,9 +44,10 @@
 					<div class="logmod__tab lgm-2">
 						<div class="logmod__form">
 							<div class="sminputs">
-								<input type="hidden" id="userEmail" name="userEmail"
-									value="${userEmail}"> <input type="hidden" id="userId"
-									name="userId" value="${userId}"><label
+								<input type="hidden" id="statusId" name="statusId"
+									value="${statusId}"> <input type="hidden"
+									id="userEmail" name="userEmail" value="${userEmail}"> <input
+									type="hidden" id="userId" name="userId" value="${userId}"><label
 									class="custom-padding">Status <span
 									id="input_validation" style="color: red; margin-left: 10px;"></span>
 								</label>
@@ -68,20 +69,23 @@
 								</select>
 							</div>
 							<div class="simform__actions">
-								<button onclick="postStatus();" class="sumbit" name="commit">Post</button>
+								<button id="postSaveButton" onclick="postStatus(true);"
+									class="sumbit" name="commit">Post Save</button>
+								<button id="postUpdateButton" onclick="postStatus(false);"
+									class="sumbit" name="commit">Post update</button>
 							</div>
 						</div>
 						<div class="sminputs">
 							<h5>Your time line activity:</h5>
 							<div class="timeLineStatus">
-								<c:forEach var="status" items="${allStatus}">
+								<c:forEach var="status" items="${allStatusByUserId}">
 									<p>
 										<i class="fa fa-user" aria-hidden="true"></i>&nbsp;${status.userName}
-										<button onclick="doEditPost('${status.statusId}');"
-											id="${status.statusId}" value="${status.statusId}">Edit
-											post</button>
 										<button onclick="doDeletePost('${status.statusId}');"
 											id="${status.statusId}" value="${status.statusId}">Delete
+											post</button>
+										<button onclick="doEditPost('${status.statusId}');"
+											id="${status.statusId}" value="${status.statusId}">Edit
 											post</button>
 									</p>
 									<p>
@@ -92,22 +96,50 @@
 									</p>
 									<hr>
 								</c:forEach>
+								<center>
+									<form id="loginForm" role="form" action="logout" method="post">
+										<input type="submit" value="Logout" />
+									</form>
+								</center>
 							</div>
 						</div>
 					</div>
 					<div class="logmod__tab lgm-1">
 						<div class="logmod__form">
-							<form id="loginForm" role="form" ModelAttribute="Users"
-								action="login" method="post">
-								<div class="sminputs"></div>
-								<div class="sminputs"></div>
-								<div class="simform__actions"></div>
-							</form>
+							<div class="sminputs">
+								<h5>All status:</h5>
+								<div class="timeLineStatus">
+									<c:forEach var="status"
+										items="${allStatusSortedByPrivacyPublic}">
+										<p>
+											<i class="fa fa-user" aria-hidden="true"></i>&nbsp;${status.userName}
+										</p>
+										<p>
+											<i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;${status.statusDisplayText}
+										</p>
+										<p>
+											<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;at&nbsp;${status.statusLocation}
+										</p>
+										<hr>
+									</c:forEach>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		window.onload = function() {
+			//considering there aren't any hashes in the urls already
+			if (!window.location.hash) {
+				//setting window location
+				window.location = window.location + '#loaded';
+				//using reload() method to reload web page
+				window.location.reload();
+			}
+		}
+	</script>
 </body>
 </html>

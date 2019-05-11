@@ -40,4 +40,9 @@ public class StatusServiceImpl implements StatusService {
 		return statusDao.getStatusById(statusId);
 	}
 
+	@Override
+	public List<Status> listOfStatusByUserId(String userId) {
+		return statusDao.listOfStatusByUserId(userId);
+	}
+
 }

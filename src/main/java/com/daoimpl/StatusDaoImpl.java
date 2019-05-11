@@ -27,6 +27,7 @@ public class StatusDaoImpl implements StatusDao {
 		Session currentSession = session.openSession();
 		try {
 			Criteria criteria = currentSession.createCriteria(Status.class);
+			criteria.add(Restrictions.eq(Status.STATUS_PRIVACY, "public"));
 			return criteria.list();
 		} catch (Exception e) {
 			PosLog.error(e.getMessage());
@@ -54,7 +55,7 @@ public class StatusDaoImpl implements StatusDao {
 
 	@Override
 	public boolean update(Status status) {
-		Session currentSession = session.getCurrentSession();
+		Session currentSession = session.openSession();
 		Transaction transaction = currentSession.beginTransaction();
 		try {
 			currentSession.update(status);
@@ -62,6 +63,8 @@ public class StatusDaoImpl implements StatusDao {
 		} catch (Exception e) {
 			PosLog.error(e.getMessage());
 			return false;
+		}finally {
+			closeSession(currentSession);
 		}
 		return true;
 
@@ -101,6 +104,22 @@ public class StatusDaoImpl implements StatusDao {
 		} finally {
 			closeSession(currentSession);
 		}
+	}
+
+	@Override
+	public List<Status> listOfStatusByUserId(String userId) {
+		Session currentSession = session.openSession();
+		try {
+			Criteria criteria = currentSession.createCriteria(Status.class);
+			criteria.add(Restrictions.eq(Status.USER_ID, userId));
+			return criteria.list();
+		} catch (Exception e) {
+			PosLog.error(e.getMessage());
+			return null;
+		} finally {
+			closeSession(currentSession);
+		}
+
 	}
 
 }

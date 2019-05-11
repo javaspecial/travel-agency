@@ -1,9 +1,13 @@
 package com.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,6 +43,9 @@ public class UsersController {
 	@Autowired
 	StatusService statusService;
 
+	private String userId = null;
+	private String userEmail = null;
+
 	@RequestMapping(value = { "/", "index" }, method = RequestMethod.GET)
 	public ModelAndView getPage(HttpServletRequest request) {
 		ModelAndView view = new ModelAndView("index");
@@ -68,6 +75,18 @@ public class UsersController {
 		return map;
 	}
 
+	@RequestMapping(value = "/logout", method = { RequestMethod.POST })
+	public ModelAndView logout(HttpServletResponse response, HttpServletRequest request) {
+		ModelAndView view = new ModelAndView("index");
+		UsersCookie.getInstance().clearCookie(userEmail, response);
+		int maxAge = UsersCookie.getInstance().getCookieMaxAge(request);
+		if (maxAge <= 0) {
+			this.userId = null;
+			return view;
+		}
+		return new ModelAndView("home");
+	}
+
 	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
 	@ExceptionHandler({ Exception.class })
 	public ModelAndView loginProcess(@RequestParam(value = "user_name", required = false) String userEmail,
@@ -82,7 +101,10 @@ public class UsersController {
 				return mv;
 			}
 			if (userServices.validateUser(userEmail, password)) {
-				mv.addObject("userId", userServices.getCurrentUserByEmail(userEmail));
+				String currentUserByEmail = userServices.getCurrentUserByEmail(userEmail);
+				this.userId = currentUserByEmail;
+				this.userEmail = userEmail;
+				mv.addObject("userId", currentUserByEmail);
 				mv.addObject("userEmail", userEmail);
 				UsersCookie.getInstance().setCookie(userEmail, response);
 				return mv;
@@ -98,19 +120,44 @@ public class UsersController {
 		}
 	}
 
-	@ModelAttribute("allStatus")
+	@ModelAttribute("allStatusSortedByPrivacyPublic")
 	public List<Status> allStatus() {
 		List<Status> listOfStatus = statusService.list();
 		return listOfStatus;
 	}
 
-	@RequestMapping(value = "/postStatus", method = RequestMethod.POST)
+	@ModelAttribute("allStatusByUserId")
+	public List<Status> allStatusByUserId() {
+		List<Status> listOfStatus = null;
+		if (this.userId != null) {
+			listOfStatus = statusService.listOfStatusByUserId(this.userId);
+		}
+		return listOfStatus;
+	}
+
+	@RequestMapping(value = "/postStatusSave", method = RequestMethod.POST)
 	@ExceptionHandler({ Exception.class })
-	public @ResponseBody Map<String, Object> postStatus(Status status) throws Exception {
+	public @ResponseBody Map<String, Object> postStatusSave(Status status) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			if (status != null) {
 				statusService.save(status);
+				map.put("status", "success");
+			} else {
+				map.put("status", "error");
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage().toString());
+		}
+		return map;
+	}
+
+	@RequestMapping(value = "/postStatusUpdate", method = RequestMethod.POST)
+	@ExceptionHandler({ Exception.class })
+	public @ResponseBody Map<String, Object> postStatusUpdate(Status status) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			if (status != null && statusService.update(status)) {
 				map.put("status", "success");
 			} else {
 				map.put("status", "error");
@@ -198,8 +245,10 @@ public class UsersController {
 			map.put("status", "Can not edit causes of id is empty");
 		} else {
 			Status status = statusService.getStatusById(Integer.valueOf(statusId));
-			if (status != null && statusService.delete(status)) {
-				map.put("status", "Deleted succesfully..");
+			if (status != null) {
+				map.put("status", status);
+			} else {
+				map.put("status", "Server error");
 			}
 		}
 		return map;

@@ -14,8 +14,8 @@ public class Status {
 	public static final String STATUS_PRIVACY = "statusPrivacy";
 	public static final String STATUS_DISPLAY_TEXT = "statusDisplayText";
 	public static final String STATUS_LOCATION = "statusLocation";
-	private static final String USER_NAME = "userName";
-	private static final String USER_ID = "userId";
+	public static final String USER_NAME = "userName";
+	public static final String USER_ID = "userId";
 
 
 	@Id
