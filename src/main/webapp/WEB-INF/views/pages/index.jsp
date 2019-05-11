@@ -97,7 +97,7 @@
 										<input type="text" id="name" required="required"
 											name="user_name" class="string optional" maxlength="255"
 											placeholder="shadathcse@gmail.com" size="50"><input
-											type="hidden" id="user_id">
+											type="hidden" id="user_id" name="user_id">
 									</div>
 								</div>
 								<div class="sminputs">

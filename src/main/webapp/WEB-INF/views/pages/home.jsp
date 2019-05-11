@@ -29,42 +29,71 @@
 <script src="<spring:url value="/resources/js/index.js" />"></script>
 <script
 	src="<spring:url value="/resources/js/ajax.login_registration.js" />"></script>
+<script src="<spring:url value="/resources/js/ajax.post_status.js" />"></script>
 <link rel="stylesheet"
 	href="<spring:url value="/resources/css/style1.css" />">
 </head>
 <body onload="load();">
-	<div class="logmod">
+	<div class="logmod" style="overflow-y: auto;">
 		<div class="logmod__wrapper">
 			<div class="logmod__container" style="height: 65%">
 				<ul class="logmod__tabs">
-					<li data-tabtar="lgm-2"><a href="#">${welcomeMSG}</a></li>
+					<li data-tabtar="lgm-2"><a href="#">${userEmail}</a></li>
+					<li data-tabtar="lgm-1"><a href="#">Home</a></li>
 				</ul>
 				<div class="logmod__tab-wrapper" id="logmod__container">
 					<div class="logmod__tab lgm-2">
-						<div class="logmod__form" style="overflow: visible;">
-							<form id="loginForm" role="form" ModelAttribute="model_name"
-								action="url" method="post">
-								<div class="sminputs">
-									<label class="custom-padding">Status</label>
-									<textarea style="width: 100%" rows="4" class="custom-padding"></textarea>
-									<label class="custom-padding">Choose privacy</label><br>
-									&nbsp;&nbsp;&nbsp;<input type="radio" name="gender"
-										value="male"> Public&nbsp;&nbsp;<input type="radio"
-										name="gender" value="female"> Private<br> <label
-										class="custom-padding">Chechk in</label><br>
+						<div class="logmod__form">
+							<div class="sminputs">
+								<input type="hidden" id="userEmail" name="userEmail"
+									value="${userEmail}"> <input type="hidden" id="userId"
+									name="userId" value="${userId}"><label
+									class="custom-padding">Status <span
+									id="input_validation" style="color: red; margin-left: 10px;"></span>
+								</label>
+								<textarea id="statusText" style="width: 100%" rows="4"
+									class="custom-padding"></textarea>
+								<label class="custom-padding">Choose privacy</label><br>
+								&nbsp;&nbsp;&nbsp;<input type="radio" name="privacy"
+									value="public" checked> Public&nbsp;&nbsp;<input
+									type="radio" name="privacy" value="private"> Private<br>
+								<label class="custom-padding">Chechk in</label><br>
 
-									<!--load list of locations from ModelAndAttribute via UsersController-->
-									<!-- using url locations -->
-									<select style="width: 100%" class="custom-padding">
-										<option value="NONE">--- Select a location ---</option>
-										<c:forEach var="location" items="${locations}">
-											<option value="${location.locationId}">${location.locationName}</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="simform__actions">
-									<button class="sumbit" name="commit">Post</button>
-								</div>
+								<!--load list of locations from ModelAndAttribute via UsersController-->
+								<!-- using url locations -->
+								<select id="location" style="width: 100%" class="custom-padding">
+									<option value="NONE">--- Select a location ---</option>
+									<c:forEach var="location" items="${locations}">
+										<option value="${location.locationName}">${location.locationName}</option>
+									</c:forEach>
+								</select>
+							</div>
+							<div class="simform__actions">
+								<button onclick="postStatus();" class="sumbit" name="commit">Post</button>
+							</div>
+						</div>
+						<div class="sminputs">
+							<h5>Your time line activity:</h5>
+							<div class="timeLineStatus">
+								<p>
+									<i class="fa fa-user" aria-hidden="true"></i>
+								</p>
+								<p>
+									<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+								</p>
+								<p>
+									<i class="fa fa-map-marker" aria-hidden="true"></i>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="logmod__tab lgm-1">
+						<div class="logmod__form">
+							<form id="loginForm" role="form" ModelAttribute="Users"
+								action="login" method="post">
+								<div class="sminputs"></div>
+								<div class="sminputs"></div>
+								<div class="simform__actions"></div>
 							</form>
 						</div>
 					</div>

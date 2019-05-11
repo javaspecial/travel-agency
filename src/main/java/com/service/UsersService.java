@@ -17,4 +17,6 @@ public interface UsersService {
 
 	public boolean existEmail(String string);
 
+	public String getCurrentUserByEmail(String userEmail);
+
 }

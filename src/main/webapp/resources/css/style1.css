@@ -702,6 +702,14 @@ html {
 	z-index: 999999;
 	background-image: url(https://basehold.it/i/24);
 }
-.custom-padding{
+
+.custom-padding {
 	padding: 10px;
+}
+
+.timeLineStatus {
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-bottom: 30px;
+	padding-top: 0px;
 }

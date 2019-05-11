@@ -16,4 +16,6 @@ public interface UsersDao {
 	public boolean validateUser(String username, String password) throws Exception;
 
 	public boolean existEmail(String User);
+
+	public String getCurrentUserByEmail(String userEmail);
 }

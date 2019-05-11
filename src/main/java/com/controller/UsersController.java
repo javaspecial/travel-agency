@@ -22,7 +22,6 @@ import com.model.Location;
 import com.model.User;
 import com.resources.UsersCookie;
 import com.service.LocationService;
-import com.service.StatusService;
 import com.service.UsersService;
 
 @Controller
@@ -33,9 +32,6 @@ public class UsersController {
 
 	@Autowired
 	LocationService locationService;
-
-	@Autowired
-	StatusService statusService;
 
 	@RequestMapping(value = { "/", "index" }, method = RequestMethod.GET)
 	public ModelAndView getPage(HttpServletRequest request) {
@@ -48,13 +44,13 @@ public class UsersController {
 
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	@ExceptionHandler({ Exception.class })
-	public @ResponseBody Map<String, Object> saveUserRegistration(User users) throws Exception {
+	public @ResponseBody Map<String, Object> saveUserRegistration(User user) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			if (StringUtils.isEmpty(users.getEmail()) || StringUtils.isEmpty(users.getPassword())) {
+			if (StringUtils.isEmpty(user.getEmail()) || StringUtils.isEmpty(user.getPassword())) {
 				map.put("signUpMSG", "mandetory");
 				return map;
-			} else if (userServices.save(users)) {
+			} else if (userServices.save(user)) {
 				map.put("signUpMSG", "successfull");
 				return map;
 			} else {
@@ -68,7 +64,7 @@ public class UsersController {
 
 	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
 	@ExceptionHandler({ Exception.class })
-	public ModelAndView loginProcess(@RequestParam(value = "user_name", required = false) String username,
+	public ModelAndView loginProcess(@RequestParam(value = "user_name", required = false) String userEmail,
 			@RequestParam(value = "password", required = false) String password, HttpServletResponse response,
 			HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("home");
@@ -79,9 +75,10 @@ public class UsersController {
 				}
 				return mv;
 			}
-			if (userServices.validateUser(username, password)) {
-				mv.addObject("welcomeMSG", username);
-				UsersCookie.getInstance().setCookie(username, response);
+			if (userServices.validateUser(userEmail, password)) {
+				mv.addObject("userId", userServices.getCurrentUserByEmail(userEmail));
+				mv.addObject("userEmail", userEmail);
+				UsersCookie.getInstance().setCookie(userEmail, response);
 				return mv;
 			} else {
 				mv = new ModelAndView("index");

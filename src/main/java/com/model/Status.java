@@ -1,14 +1,10 @@
 package com.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,7 +14,9 @@ public class Status {
 	public static final String STATUS_PRIVACY = "statusPrivacy";
 	public static final String STATUS_DISPLAY_TEXT = "statusDisplayText";
 	public static final String STATUS_LOCATION = "statusLocation";
-	private static final String USER = "user";
+	private static final String USER_NAME = "userName";
+	private static final String USER_ID = "userId";
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,10 +31,12 @@ public class Status {
 
 	@Column(name = STATUS_LOCATION, length = 255)
 	private String statusLocation;
-
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = USER, referencedColumnName = User.USER_ID)
-	private User user;
+	
+	@Column(name = USER_NAME, length = 50)
+	private String userName;
+	
+	@Column(name = USER_ID, length = 50)
+	private String userId;
 
 	public Status() {
 	}
@@ -73,11 +73,20 @@ public class Status {
 		this.statusLocation = statusLocation;
 	}
 
-	public User getUser() {
-		return user;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 }

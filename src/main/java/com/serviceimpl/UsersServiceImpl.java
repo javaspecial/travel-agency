@@ -40,4 +40,9 @@ public class UsersServiceImpl implements UsersService {
 		return userDao.existEmail(users);
 	}
 
+	@Override
+	public String getCurrentUserByEmail(String userEmail) {
+		return userDao.getCurrentUserByEmail(userEmail);
+	}
+
 }
