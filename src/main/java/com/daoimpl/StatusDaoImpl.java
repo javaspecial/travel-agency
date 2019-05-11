@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +44,7 @@ public class StatusDaoImpl implements StatusDao {
 			currentSession.delete(status);
 			transaction.commit();
 		} catch (Exception e) {
+			transaction.rollback();
 			PosLog.error(e.getMessage());
 			return false;
 		}
@@ -83,6 +85,21 @@ public class StatusDaoImpl implements StatusDao {
 	public void closeSession(Session session) {
 		if (session != null) {
 			session.close();
+		}
+	}
+
+	@Override
+	public Status getStatusById(Integer statusId) {
+		Session currentSession = session.openSession();
+		try {
+			Criteria criteria = currentSession.createCriteria(Status.class);
+			criteria.add(Restrictions.eq(Status.STATUS_ID, statusId));
+			return (Status) criteria.uniqueResult();
+		} catch (Exception e) {
+			PosLog.error(e.getMessage());
+			return null;
+		} finally {
+			closeSession(currentSession);
 		}
 	}
 

@@ -88,5 +88,5 @@ public class Status {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
+  
 }

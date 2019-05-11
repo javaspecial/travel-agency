@@ -77,8 +77,12 @@
 								<c:forEach var="status" items="${allStatus}">
 									<p>
 										<i class="fa fa-user" aria-hidden="true"></i>&nbsp;${status.userName}
-										<button>Edit port</button>
-										<button id="${status.statusId}">Delete post</button>
+										<button onclick="doEditPost('${status.statusId}');"
+											id="${status.statusId}" value="${status.statusId}">Edit
+											post</button>
+										<button onclick="doDeletePost('${status.statusId}');"
+											id="${status.statusId}" value="${status.statusId}">Delete
+											post</button>
 									</p>
 									<p>
 										<i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;${status.statusDisplayText}

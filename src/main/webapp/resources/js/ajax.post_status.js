@@ -23,7 +23,8 @@ function postStatus() {
 	} else {
 		postPrivacy = privacy[1].value;
 	}
-	$.ajax({
+	$
+			.ajax({
 				url : 'postStatus',
 				type : 'POST',
 				data : {
@@ -50,7 +51,48 @@ function postStatus() {
 				},
 				error : function(xhr, status, err) {
 					alert(xhr.responseText);
-					load();
 				}
 			});
+}
+
+// delete request for post a status
+function doDeletePost(statusId) {
+	$.ajax({
+		url : 'deletePostStatus/',
+		type : 'POST',
+		data : {
+			statusId : statusId,
+		},
+		success : function(response) {
+			alert(response.status);
+			setTimeout(function() {
+				window.location.reload(1);
+			}, 0);
+		},
+		error : function(xhr, status, err) {
+			alert(xhr.responseText);
+		}
+	});
+}
+
+//edit request for a posted status
+function doEditPost(statusId){
+
+	$.ajax({
+		url : 'editPostStatus/',
+		type : 'POST',
+		data : {
+			statusId : statusId,
+		},
+		success : function(response) {
+			alert(response.status);
+			setTimeout(function() {
+				window.location.reload(1);
+			}, 0);
+		},
+		error : function(xhr, status, err) {
+			alert(xhr.responseText);
+		}
+	});
+
 }

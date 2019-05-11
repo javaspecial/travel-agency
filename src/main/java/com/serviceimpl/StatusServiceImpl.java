@@ -35,4 +35,9 @@ public class StatusServiceImpl implements StatusService {
 		return statusDao.save(status);
 	}
 
+	@Override
+	public Status getStatusById(Integer statusId) {
+		return statusDao.getStatusById(statusId);
+	}
+
 }

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -176,12 +177,30 @@ public class UsersController {
 		return map;
 	}
 
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> delete(User users) {
+	@RequestMapping(value = "/deletePostStatus", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Map<String, Object> deletePostStatus(@RequestParam("statusId") String statusId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (userServices.delete(users)) {
-			map.put("status", "200");
-			map.put("message", "Your record have been deleted successfully");
+		if (StringUtils.isEmpty(statusId)) {
+			map.put("status", "Can not deleted causes of id is empty");
+		} else {
+			Status status = statusService.getStatusById(Integer.valueOf(statusId));
+			if (status != null && statusService.delete(status)) {
+				map.put("status", "Deleted succesfully..");
+			}
+		}
+		return map;
+	}
+
+	@RequestMapping(value = "/editPostStatus", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Map<String, Object> editPostStatus(@RequestParam("statusId") String statusId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (StringUtils.isEmpty(statusId)) {
+			map.put("status", "Can not edit causes of id is empty");
+		} else {
+			Status status = statusService.getStatusById(Integer.valueOf(statusId));
+			if (status != null && statusService.delete(status)) {
+				map.put("status", "Deleted succesfully..");
+			}
 		}
 		return map;
 	}

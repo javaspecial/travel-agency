@@ -12,4 +12,6 @@ public interface StatusDao {
 	public boolean update(Status status);
 
 	public boolean save(Status status) throws Exception;
+
+	public Status getStatusById(Integer statusId);
 }

@@ -8,3 +8,5 @@ You can run this project by following configuration: (If you want to configure y
 3.APACHE-TOMCAT SERVER VERSION: version 9.0
 4.IDE is not mandatory, I am using Ecelipse Photon.
 
+5.Completed feature for posting own time line, to view posted status, delete status and edit status.
+
