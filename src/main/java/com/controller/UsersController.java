@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.model.Location;
+import com.model.Status;
 import com.model.User;
 import com.resources.UsersCookie;
 import com.service.LocationService;
+import com.service.StatusService;
 import com.service.UsersService;
 
 @Controller
@@ -32,6 +34,9 @@ public class UsersController {
 
 	@Autowired
 	LocationService locationService;
+
+	@Autowired
+	StatusService statusService;
 
 	@RequestMapping(value = { "/", "index" }, method = RequestMethod.GET)
 	public ModelAndView getPage(HttpServletRequest request) {
@@ -92,6 +97,29 @@ public class UsersController {
 		}
 	}
 
+	@ModelAttribute("allStatus")
+	public List<Status> allStatus() {
+		List<Status> listOfStatus = statusService.list();
+		return listOfStatus;
+	}
+
+	@RequestMapping(value = "/postStatus", method = RequestMethod.POST)
+	@ExceptionHandler({ Exception.class })
+	public @ResponseBody Map<String, Object> postStatus(Status status) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			if (status != null) {
+				statusService.save(status);
+				map.put("status", "success");
+			} else {
+				map.put("status", "error");
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage().toString());
+		}
+		return map;
+	}
+
 	@ModelAttribute("locations")
 	public List<Location> getListOfLocations() {
 		List<Location> listOfLocations = locationService.getListOfLocation();
@@ -106,7 +134,7 @@ public class UsersController {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage().toString());
 		}
 		return listOfLocations;
 	}

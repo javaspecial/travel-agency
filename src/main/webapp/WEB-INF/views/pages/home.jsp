@@ -10,7 +10,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Travel-agency" />
-
 <%@ page isELIgnored="false"%>
 <link rel="shortcut icon"
 	href="<spring:url value="/resources/icon/title.png"/>" />
@@ -33,7 +32,7 @@
 <link rel="stylesheet"
 	href="<spring:url value="/resources/css/style1.css" />">
 </head>
-<body onload="load();">
+<body>
 	<div class="logmod" style="overflow-y: auto;">
 		<div class="logmod__wrapper">
 			<div class="logmod__container" style="height: 65%">
@@ -75,15 +74,20 @@
 						<div class="sminputs">
 							<h5>Your time line activity:</h5>
 							<div class="timeLineStatus">
-								<p>
-									<i class="fa fa-user" aria-hidden="true"></i>
-								</p>
-								<p>
-									<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-								</p>
-								<p>
-									<i class="fa fa-map-marker" aria-hidden="true"></i>
-								</p>
+								<c:forEach var="status" items="${allStatus}">
+									<p>
+										<i class="fa fa-user" aria-hidden="true"></i>&nbsp;${status.userName}
+										<button>Edit port</button>
+										<button id="${status.statusId}">Delete post</button>
+									</p>
+									<p>
+										<i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;${status.statusDisplayText}
+									</p>
+									<p>
+										<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;at&nbsp;${status.statusLocation}
+									</p>
+									<hr>
+								</c:forEach>
 							</div>
 						</div>
 					</div>

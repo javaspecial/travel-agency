@@ -2,6 +2,7 @@ package com.daoimpl;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -22,7 +23,16 @@ public class StatusDaoImpl implements StatusDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Status> list() {
-		return session.getCurrentSession().createQuery("from Status").list();
+		Session currentSession = session.openSession();
+		try {
+			Criteria criteria = currentSession.createCriteria(Status.class);
+			return criteria.list();
+		} catch (Exception e) {
+			PosLog.error(e.getMessage());
+			return null;
+		} finally {
+			closeSession(currentSession);
+		}
 	}
 
 	@Override
