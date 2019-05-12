@@ -1,12 +1,16 @@
-# travel-agency
-This is a social site like travel agency.
+# Travel-agency
+This is a demo of a social site like travel agency. Here is the way to write your own time line,edit,update and delete the post status. You can view your own time line and there is a Home where you can view all users status. Using Spring MVC, Hibernate ORM and JavaScript to completed this project.
 
-You can run this project by following configuration: (If you want to configure your own then change my pom,application-context and resources folder carefully).
+#Project configuration and setup:
 
-1.DATABASE SERVER: MySql, I am using xampp
-2.First create database according to this name which configured into applicationContext.xml like travelagency. If hibernate.hbm2ddl.auto = "update", please for the first time replace it by "create" which is commented there.For the first time it will create database named travelagency by following configuration of applicationContext.xml. Then write there "update" and perform your task to test it.
-3.APACHE-TOMCAT SERVER VERSION: version 9.0
-4.IDE is not mandatory, I am using Ecelipse Photon.
+1) First create a database named travelagency because I configured it into applicationContext.xml. Write create here
+<prop key="hibernate.hbm2ddl.auto"> create </prop><!-- create or update database like "create" or "update" -->
+You can change it as you expect.Then start application with apache-tomcat v9 and for database I used xampp run it for mysql database connection which database you created. All the database table will be created by the hibernate annotation configuration.
 
-5.Completed feature for posting own time line, to view posted status, delete status and edit status.
+2) For clear understanding read applicationContext.xml and UsersController.java file. Need to focus on ajax.login_registration.js and ajax.post_status.js for request handling between client side and controller
+
+3) To deploy the site by only running  apache-tomcat v9 server. For that please put travel-agency.war file into
+C:\Program Files\Apache Software Foundation\apache-tomcat-9.0.16\webapps\travel-agency.war
+
+4) Completed feature for posting own time line, to view posted status, delete a status and edit a status. Also covered Session and Cookie for login and logout 
 
